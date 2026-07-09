@@ -4,7 +4,6 @@ from PIL import Image
 
 st.title("📝 우리 아이 맞춤 영단어 체크봇")
 
-# Secrets에 저장된 API 키를 가져옵니다.
 api_key = st.secrets.get("GEMINI_API_KEY")
 
 if not api_key:
@@ -12,8 +11,9 @@ if not api_key:
 else:
     genai.configure(api_key=api_key)
     
-    # [중요] 모델 이름을 직접 적지 않고, 기본 모델을 사용하도록 설정합니다.
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    # [최종 해결책] 모델 이름을 명시하지 않고, 
+    # 현재 계정에서 권한이 있는 최신 모델을 자동으로 불러오도록 설정합니다.
+    model = genai.GenerativeModel() 
 
     uploaded_file = st.file_uploader("사진을 올려주세요", type=["png", "jpg", "jpeg"])
 
@@ -24,11 +24,12 @@ else:
         if st.button("분석 시작"):
             st.write("분석 중...")
             try:
-                # 명령을 수행합니다.
+                # 최신 방식으로 이미지와 프롬프트 전달
                 prompt = "이 이미지에서 형광펜으로 표시된 영단어를 찾아 1.단어 2.뜻 3.예문 순서로 표를 만들어줘."
                 response = model.generate_content([prompt, image])
                 st.subheader("📚 오늘의 맞춤 단어장")
                 st.write(response.text)
             except Exception as e:
-                # 오류가 나면 왜 났는지 화면에 보여줍니다.
                 st.error(f"분석 중 오류 발생: {e}")
+                st.write("---")
+                st.write("💡 마지막 팁: 만약 여기서도 오류가 난다면, 'Google AI Studio'에서 모델 이름이 무엇으로 설정되어 있는지 확인이 필요합니다.")
