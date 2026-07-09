@@ -14,7 +14,7 @@ else:
     # 모델 이름을 명시하지 않거나, 가장 범용적인 방식으로 호출합니다.
     # 만약 아래 코드도 오류가 나면 'gemini-1.5-flash'를 사용하되, 
     # 구글 AI 스튜디오 설정에서 권한을 다시 확인해야 합니다.
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel()
 
     uploaded_file = st.file_uploader("사진을 올려주세요", type=["png", "jpg", "jpeg"])
 
