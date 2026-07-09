@@ -1,7 +1,11 @@
 import streamlit as st
 import google.generativeai as genai
 from PIL import Image
-import os
+
+# 설정
+api_key = st.secrets.get("GEMINI_API_KEY")
+genai.configure(api_key=api_key)
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 # 페이지 설정
 st.set_page_config(page_title="우리 아이 맞춤 영단어 체크봇", layout="centered")
@@ -19,7 +23,7 @@ else:
     # Gemini AI 두뇌 깨우기
     genai.configure(api_key=api_key)
     # 이미지 인식에 최신 제미나이 모델 사용
-    model = genai.GenerativeModel('gemini-1.5-pro-latest')
+    model = genai.GenerativeModel('gemini-1.5-flash')
 
     # 파일 업로드 창 생성
     uploaded_file = st.file_uploader("📸 영어 문장이나 형광펜 친 사진을 올려주세요", type=["png", "jpg", "jpeg"])
