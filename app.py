@@ -13,7 +13,8 @@ else:
     
     # [최종 해결책] 모델 이름을 명시하지 않고, 
     # 현재 계정에서 권한이 있는 최신 모델을 자동으로 불러오도록 설정합니다.
-    model = genai.GenerativeModel() 
+    # 만약 계속 오류가 난다면, 'gemini-1.5-flash'를 사용해 보세요.
+    model = genai.GenerativeModel(model_name="gemini-1.5-flash") 
 
     uploaded_file = st.file_uploader("사진을 올려주세요", type=["png", "jpg", "jpeg"])
 
@@ -32,4 +33,4 @@ else:
             except Exception as e:
                 st.error(f"분석 중 오류 발생: {e}")
                 st.write("---")
-                st.write("💡 마지막 팁: 만약 여기서도 오류가 난다면, 'Google AI Studio'에서 모델 이름이 무엇으로 설정되어 있는지 확인이 필요합니다.")
+                st.write("💡 해결 팁: 오류가 계속된다면, 'Google AI Studio'에서 모델 이름이 무엇으로 설정되어 있는지 확인이 필요합니다.")
