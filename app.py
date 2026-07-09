@@ -4,7 +4,6 @@ from PIL import Image
 
 st.title("📝 우리 아이 맞춤 영단어 체크봇")
 
-# 1. API 키 가져오기
 api_key = st.secrets.get("GEMINI_API_KEY")
 
 if not api_key:
@@ -12,12 +11,8 @@ if not api_key:
 else:
     genai.configure(api_key=api_key)
     
-    # 2. 모델 선택 (오류를 방지하기 위해 가장 안정적인 모델 사용)
-    # 1.5-flash가 안 된다면 gemini-pro를 사용하도록 설정
-    try:
-        model = genai.GenerativeModel('gemini-1.5-flash')
-    except:
-        model = genai.GenerativeModel('gemini-pro')
+    # 모델 호출 방식 변경: 모델 이름을 명확히 다시 지정
+    model = genai.GenerativeModel('gemini-1.5-flash-latest')
 
     uploaded_file = st.file_uploader("사진을 올려주세요", type=["png", "jpg", "jpeg"])
 
@@ -34,4 +29,3 @@ else:
                 st.write(response.text)
             except Exception as e:
                 st.error(f"분석 중 오류 발생: {e}")
-                st.write("팁: 만약 404 오류가 계속되면, Google AI Studio에서 모델 접근 권한이 최신인지 확인해주세요.")
