@@ -15,7 +15,7 @@ else:
     # [수정된 부분] 모델 이름을 특정하지 않고, 
     # 현재 계정에서 지원하는 가장 안정적인 모델인 'gemini-1.5-flash'를 기본값으로 사용합니다.
     try:
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-1.5-flash-latest')
     except Exception as e:
         st.error(f"모델 연결 실패: {e}")
 
