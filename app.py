@@ -1,4 +1,4 @@
-Python
+import
 import streamlit as st
 import time
 import json
