@@ -19,7 +19,7 @@ else:
     # Gemini AI 두뇌 깨우기
     genai.configure(api_key=api_key)
     # 이미지 인식에 최신 제미나이 모델 사용
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-1.5-pro-latest')
 
     # 파일 업로드 창 생성
     uploaded_file = st.file_uploader("📸 영어 문장이나 형광펜 친 사진을 올려주세요", type=["png", "jpg", "jpeg"])
