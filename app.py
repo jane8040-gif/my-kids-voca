@@ -1,53 +1,29 @@
 import streamlit as st
 
-# CSS로 아파트 테두리와 조명 효과 정의
-st.markdown("""
-    <style>
-    .apartment-block {
-        border: 3px solid #333;
-        border-radius: 10px;
-        padding: 20px;
-        margin-bottom: 20px;
-        background-color: #f9f9f9;
-    }
-    .window-lit {
-        background-color: #FFD700; /* 불 켜진 노란색 */
-        padding: 5px;
-        border-radius: 5px;
-        color: black;
-        font-weight: bold;
-    }
-    .window-off {
-        background-color: #eee;
-        padding: 5px;
-        border-radius: 5px;
-    }
-    </style>
-""", unsafe_allow_html=True)
+# 1. 세션 상태 초기화 (루프 밖에서 미리 선언)
+if 'learned_words' not in st.session_state:
+    st.session_state.learned_words = {}
 
-# 101동 데이터
 words = ["School", "House", "Room", "Desk", "Chair"]
+
+# 초기화가 안 된 단어들을 세션 상태에 추가
+for word in words:
+    if word not in st.session_state.learned_words:
+        st.session_state.learned_words[word] = False
 
 st.title("🏠 영단어 아파트 단지")
 
-# 101동 건물 테두리 박스 시작
 with st.container():
-    st.markdown('<div class="apartment-block">', unsafe_allow_html=True)
     st.subheader("🏢 101동 (사물과 장소)")
     
-    # 단어별 체크박스 및 창문 효과
+    # 2. 체크박스에서 바로 상태를 할당하지 않고, callback이나 딕셔너리 접근 사용
     for word in words:
-        # 상태 관리: 세션에 학습 여부 저장
-        if word not in st.session_state:
-            st.session_state[word] = False
-            
-        checked = st.checkbox(f"단어: {word}", key=word)
-        st.session_state[word] = checked
+        # 체크박스 상태를 세션 상태와 동기화
+        is_checked = st.checkbox(f"단어: {word}", key=word, value=st.session_state.learned_words[word])
+        st.session_state.learned_words[word] = is_checked
         
         # 불 켜기 시각화
-        if st.session_state[word]:
-            st.markdown(f'<p class="window-lit">💡 {word} 학습 완료!</p>', unsafe_allow_html=True)
+        if st.session_state.learned_words[word]:
+            st.markdown(f'<p style="background-color: #FFD700; padding: 5px;">💡 {word} 학습 완료!</p>', unsafe_allow_html=True)
         else:
-            st.markdown(f'<p class="window-off">🌑 {word} 공부하기</p>', unsafe_allow_html=True)
-            
-    st.markdown('</div>', unsafe_allow_html=True)
+            st.markdown(f'<p style="background-color: #eee; padding: 5px;">🌑 {word} 공부하기</p>', unsafe_allow_html=True)
