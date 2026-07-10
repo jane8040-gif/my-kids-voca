@@ -2,15 +2,22 @@ import streamlit as st
 import google.generativeai as genai
 from PIL import Image
 
-
-# 1. API 키 설정 (AQ로 시작하는 키를 그대로 사용)
+# 스트림릿 Secrets에서 키 가져오기
 api_key = st.secrets.get("GEMINI_API_KEY")
+
+# 1. 명시적으로 환경변수를 라이브러리에 전달
+import os
+os.environ["GOOGLE_API_KEY"] = api_key
 genai.configure(api_key=api_key)
 
-# 2. 모델 설정: 최신 정책에 맞게 버전을 명확히 호출
-model = genai.GenerativeModel(model_name="gemini-1.5-flash")
+# 2. 모델 호출 (캐싱을 위해 st.cache_resource 사용 권장)
+@st.cache_resource
+def load_model():
+    return genai.GenerativeModel('gemini-1.5-flash')
 
-# ... (이후 이미지 업로드 및 버튼 로직 동일) ...
+model = load_model()
+
+# (이후 이미지 업로드 및 분석 로직은 동일)
 
 st.title("📝 우리 아이 맞춤 영단어 체크봇")
 
