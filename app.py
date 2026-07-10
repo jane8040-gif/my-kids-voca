@@ -8,8 +8,8 @@ api_key = st.secrets.get("GEMINI_API_KEY")
 # 2. 인증 설정
 genai.configure(api_key=api_key)
 
-# 3. 중요: 모델 호출 시 버전을 명시적으로 v1으로 처리하도록 유도
-# 'models/gemini-1.5-flash'라고 전체 경로를 명시하면 v1으로 연결됩니다.
+# 3. 중요: 모델 명칭을 'models/gemini-1.5-flash'로 수정
+# 이렇게 하면 라이브러리가 v1beta가 아닌 기본 v1 버전으로 연결합니다.
 model = genai.GenerativeModel('models/gemini-1.5-flash')
 
 st.title("📝 우리 아이 맞춤 영단어 체크봇")
